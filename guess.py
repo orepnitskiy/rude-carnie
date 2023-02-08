@@ -65,6 +65,7 @@ def resolve_file(fname):
 
 def classify_many_single_crop(sess, label_list, softmax_output, coder, images, image_files, writer):
     try:
+        time_1 = time.time()
         num_batches = math.ceil(len(image_files) / MAX_BATCH_SZ)
         pg = ProgressBar(num_batches)
         for j in range(num_batches):
@@ -84,6 +85,8 @@ def classify_many_single_crop(sess, label_list, softmax_output, coder, images, i
                 if writer is not None:
                     f = batch_image_files[i]
                     writer.writerow((f, best_choice[0], '%.2f' % best_choice[1]))
+            time_2 = time.time()
+            print(time_2-time_1)
             pg.update()
         pg.done()
     except Exception as e:
